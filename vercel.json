@@ -6,8 +6,12 @@
       "dest": "/public/$1"
     },
     {
-      "src": "/adminn",
-      "dest": "/public/adminn.html"
+      "src": "/admin",
+      "": "/public/admin.html"
+    },
+    {
+      "src": "/login",
+      "dest": "/public/login-admin.html"
     }
   ]
 }
