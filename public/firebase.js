@@ -19,4 +19,4 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 // Export agar bisa diakses dari HTML
-export { db, ref, push, set };
+const dataRef = ref(db, 'pendaftaran17agustus/');
