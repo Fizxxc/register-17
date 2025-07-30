@@ -5,11 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin | Data Pendaftar</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-database-compat.js"></script>
 </head>
 <body class="bg-gray-100 min-h-screen p-6">
-
   <h1 class="text-3xl font-bold text-center text-red-600 mb-6">📋 Data Pendaftar 17 Agustus</h1>
 
   <div class="overflow-x-auto bg-white rounded-lg shadow p-4 max-w-5xl mx-auto">
@@ -29,27 +26,14 @@
     </table>
   </div>
 
-  <script>
-    // GANTI DENGAN KONFIGURASI FIREBASE PUNYA KAMU
-    const firebaseConfig = {
-      apiKey: "API_KEY",
-      authDomain: "PROJECT_ID.firebaseapp.com",
-      databaseURL: "https://PROJECT_ID-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "PROJECT_ID",
-      storageBucket: "PROJECT_ID.appspot.com",
-      messagingSenderId: "SENDER_ID",
-      appId: "APP_ID"
-    };
-
-    // Inisialisasi Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+  <script type="module">
+    import { db } from './firebase.js';
 
     const dataTable = document.getElementById("dataTable");
     const daftarRef = db.ref("pendaftaran17agustus");
 
     daftarRef.on("value", (snapshot) => {
-      dataTable.innerHTML = ""; // Reset tabel
+      dataTable.innerHTML = "";
       let i = 1;
 
       snapshot.forEach((child) => {
