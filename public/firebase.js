@@ -14,10 +14,9 @@ const firebaseConfig = {
   measurementId: "G-6S5NHHLFW0"
 };
 
-
+// Inisialisasi Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-export const dbRef = ref.bind(null, db);
-export const dbInstance = db;
-export default { db, dbRef };
+// Export agar bisa diakses dari HTML
+export { db, ref, push, set };
