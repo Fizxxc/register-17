@@ -4,6 +4,10 @@
     {
       "src": "/(.*)",
       "dest": "/public/$1"
+    },
+    {
+      "src": "/adminn",
+      "dest": "/public/adminn.html"
     }
   ]
 }
