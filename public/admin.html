@@ -1,62 +1,65 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin | Data Pendaftar</title>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard - 17 Agustus</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen p-6">
-  <h1 class="text-3xl font-bold text-center text-red-600 mb-6">📋 Data Pendaftar 17 Agustus</h1>
-
-  <div class="overflow-x-auto bg-white rounded-lg shadow p-4 max-w-5xl mx-auto">
-    <table class="min-w-full text-sm text-left text-gray-700">
-      <thead class="text-xs text-white uppercase bg-red-600">
-        <tr>
-          <th class="px-4 py-3">#</th>
-          <th class="px-4 py-3">Nama</th>
-          <th class="px-4 py-3">Kelas</th>
-          <th class="px-4 py-3">No. WhatsApp</th>
-          <th class="px-4 py-3">Lomba</th>
+<body class="bg-gray-100 text-gray-800">
+  <div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-4">Dashboard Pendaftaran 17 Agustus</h1>
+    <table class="min-w-full bg-white shadow-md rounded border">
+      <thead>
+        <tr class="bg-gray-200 text-left">
+          <th class="py-2 px-4">No</th>
+          <th class="py-2 px-4">Nama</th>
+          <th class="py-2 px-4">Email</th>
+          <th class="py-2 px-4">Nomor HP</th>
+          <th class="py-2 px-4">Alamat</th>
         </tr>
       </thead>
-      <tbody id="dataTable" class="bg-white divide-y divide-gray-200">
-        <!-- Data dari Firebase akan muncul di sini -->
-      </tbody>
+      <tbody id="data-table" class="divide-y divide-gray-200"></tbody>
     </table>
   </div>
 
   <script type="module">
-    import { db } from './firebase.js';
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
 
-    const dataTable = document.getElementById("dataTable");
-    const daftarRef = db.ref("pendaftaran17agustus");
+    const firebaseConfig = {
+      apiKey: "AIzaSyCSKBHxE8YIDFsEW-8TpGSOHuZJ5CliIkg",
+      authDomain: "fingerpinauth.firebaseapp.com",
+      databaseURL: "https://fingerpinauth-default-rtdb.firebaseio.com",
+      projectId: "fingerpinauth",
+      storageBucket: "fingerpinauth.firebasestorage.app",
+      messagingSenderId: "395896869935",
+      appId: "1:395896869935:web:f05223a2c140bd88d662da",
+      measurementId: "G-6S5NHHLFW0"
+    };
 
-    daftarRef.on("value", (snapshot) => {
-      dataTable.innerHTML = "";
-      let i = 1;
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const dataRef = ref(db, 'pendaftaran17agustus/');
 
-      snapshot.forEach((child) => {
-        const data = child.val();
+    const table = document.getElementById('data-table');
+
+    onValue(dataRef, (snapshot) => {
+      table.innerHTML = "";
+      let index = 1;
+      snapshot.forEach((childSnapshot) => {
+        const data = childSnapshot.val();
         const row = `
-          <tr class="hover:bg-gray-50">
-            <td class="px-4 py-2 font-semibold">${i++}</td>
-            <td class="px-4 py-2">${data.nama}</td>
-            <td class="px-4 py-2">${data.kelas}</td>
-            <td class="px-4 py-2">${data.wa}</td>
-            <td class="px-4 py-2">${data.lomba}</td>
-          </tr>
-        `;
-        dataTable.insertAdjacentHTML("beforeend", row);
-      });
-
-      if (i === 1) {
-        dataTable.innerHTML = `
           <tr>
-            <td colspan="5" class="text-center py-4 text-gray-500">Belum ada pendaftar.</td>
+            <td class="py-2 px-4">${index++}</td>
+            <td class="py-2 px-4">${data.nama}</td>
+            <td class="py-2 px-4">${data.email}</td>
+            <td class="py-2 px-4">${data.hp}</td>
+            <td class="py-2 px-4">${data.alamat}</td>
           </tr>
         `;
-      }
+        table.innerHTML += row;
+      });
     });
   </script>
 </body>
